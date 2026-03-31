@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🦷 Campanha Abrindo Sorrisos — Araruna Odontologia</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#F5F4EF;--surf:#FFF;--surf2:#EEEDE7;--bord:#E0DED6;
+  --text:#1A1917;--text2:#6B6960;--text3:#A09D94;
+  --blue:#1A5E8C;--blue2:#E3EEF7;--blue3:#B5D4F4;
+  --teal:#0F6E56;--teal2:#E0F2EB;--teal3:#9FE1CB;
+  --purp:#3C3489;--purp2:#EDE8F7;--purp3:#CECBF6;
+  --amb:#7A4500;--amb2:#FEF4E3;--amb3:#FAC775;
+  --red:#A32D2D;--red2:#FCEBEB;--red3:#F7C1C1;
+  --navy:#0F2A42;--r:10px;--rlg:14px;
+}
+[data-theme="dark"]{
+  --bg:#0F1117;--surf:#1A1D27;--surf2:#22263A;--bord:#2E3248;
+  --text:#E8E9F0;--text2:#9699B0;--text3:#565970;
+  --blue:#4DA3E0;--blue2:#0E2035;--blue3:#1A3A5C;
+  --teal:#3ECFA0;--teal2:#0A2018;--teal3:#0F3A28;
+  --purp:#8B7FE8;--purp2:#150F2E;--purp3:#231A4A;
+  --amb:#F0A848;--amb2:#1E1200;--amb3:#3A2400;
+  --red:#E26060;--red2:#1E0808;--red3:#3A1010;
+  --navy:#070B14;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;transition:background .2s,color .2s}
+.topbar{background:var(--navy);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;flex-wrap:wrap;gap:10px}
+.tb-title{font-size:15px;font-weight:700;color:#fff}
+.tb-sub{font-size:11px;color:rgba(255,255,255,.45);margin-top:1px}
+.tb-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{padding:7px 13px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.75);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .12s}
+.btn:hover{background:rgba(255,255,255,.1)}
+.btn-p{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:600}
+.btn-p:hover{opacity:.85}
+.saved{font-size:11px;color:#9FE1CB;opacity:0;transition:opacity .3s}
+.saved.show{opacity:1}
+.nav{background:var(--surf);border-bottom:1px solid var(--bord);padding:0 28px;display:flex;overflow-x:auto;position:sticky;top:52px;z-index:190}
+.nt{padding:13px 18px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .12s}
+.nt:hover{color:var(--text)}
+.nt.on{color:var(--teal);border-bottom-color:var(--teal);font-weight:600}
+.page{display:none}
+.page.on{display:block;animation:fi .18s ease}
+@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 24px}
+/* TICKET BAR */
+.tbar{background:var(--amb2);border:1px solid var(--amb3);border-radius:var(--rlg);padding:16px 22px;margin-bottom:24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.tbar-lbl{font-size:13px;font-weight:600;color:var(--amb)}
+.tbar-hint{font-size:11px;color:var(--amb);opacity:.7;margin-top:2px}
+.ti{display:flex;align-items:center;gap:8px}
+.ti span{font-weight:700;color:var(--amb);font-size:13px}
+.ti input{padding:7px 10px;font-size:15px;font-weight:700;border-radius:8px;border:1.5px solid var(--amb3);background:#fff;color:var(--amb);text-align:center;font-family:'DM Mono',monospace;width:110px}
+.ti.du input{width:60px}
+.ti input:focus{outline:none;border-color:var(--amb)}
+.rcalc{padding:8px 14px;border-radius:8px;border:none;background:var(--amb);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif}
+/* STITLE */
+.stitle{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin:24px 0 12px}
+/* STAT GRIDS */
+.sg4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.sg3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.sg2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:18px}
+.sc{background:var(--surf);border:1px solid var(--bord);border-radius:var(--rlg);padding:16px 18px}
+.sc .lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.sc .val{font-size:26px;font-weight:700;font-family:'DM Mono',monospace;line-height:1}
+.sc .sub{font-size:11px;color:var(--text3);margin-top:4px}
+.sc.teal{border-color:var(--teal3);background:var(--teal2)}.sc.teal .val{color:var(--teal)}
+.sc.blue{border-color:var(--blue3);background:var(--blue2)}.sc.blue .val{color:var(--blue)}
+.sc.purp{border-color:var(--purp3);background:var(--purp2)}.sc.purp .val{color:var(--purp)}
+.sc.amb{border-color:var(--amb3);background:var(--amb2)}.sc.amb .val{color:var(--amb)}
+.sc.red{border-color:var(--red3);background:var(--red2)}.sc.red .val{color:var(--red)}
+/* SECTION CARD */
+.scard{background:var(--surf);border:1px solid var(--bord);border-radius:var(--rlg);padding:20px 24px;margin-bottom:16px}
+.scard h3{font-size:14px;font-weight:700;margin-bottom:12px}
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;padding:9px 12px;text-align:left;border-bottom:2px solid var(--bord)}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--bord);font-size:13px;vertical-align:middle}
+.tbl .tot td{font-weight:700;background:var(--surf2);border-bottom:none}
+.neg{color:var(--red);font-weight:700}
+.pos{color:var(--teal);font-weight:700}
+.neu{color:var(--text2)}
+/* BANNERS */
+.banner{border-radius:var(--rlg);padding:22px 26px;margin-bottom:20px}
+.miss{background:var(--red2);border:1px solid var(--red3)}
+.miss .bt{color:var(--red);font-size:20px;font-weight:700}
+.miss .bd{color:var(--red);font-size:13px;margin-top:4px;opacity:.8}
+.dark-b{background:var(--navy);border:none}
+.dark-b .decl{font-size:14px;line-height:1.8;font-style:italic;color:rgba(255,255,255,.85);border-left:3px solid var(--teal3);padding-left:16px;margin-bottom:20px}
+/* CENÁRIO */
+.cen{border-radius:var(--rlg);padding:18px 22px;margin-bottom:14px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.cen.base{background:var(--blue2);border:1px solid var(--blue3)}
+.cen.super{background:var(--purp2);border:1px solid var(--purp3)}
+.cen.mega{background:var(--teal2);border:1px solid var(--teal3)}
+.cen .emo{font-size:22px;margin-bottom:4px}
+.cen .ct{font-size:18px;font-weight:700;letter-spacing:-.3px}
+.cen.base .ct{color:var(--blue)}.cen.super .ct{color:var(--purp)}.cen.mega .ct{color:var(--teal)}
+.cen .cs{font-size:12px;margin-top:3px}
+.cen.base .cs{color:#185FA5}.cen.super .cs{color:#534AB7}.cen.mega .cs{color:var(--teal)}
+.cen .prm{font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;margin-top:8px;display:inline-block}
+.cen.super .prm{background:var(--purp3);color:var(--purp)}.cen.mega .prm{background:var(--teal3);color:var(--teal)}
+.ckpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;min-width:280px}
+.ck{background:rgba(255,255,255,.65);border-radius:8px;padding:10px 14px}
+.ck .kl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.cen.base .ck .kl{color:#185FA5}.cen.super .ck .kl{color:#534AB7}.cen.mega .ck .kl{color:var(--teal)}
+.ck .kv{font-size:20px;font-weight:700;font-family:'DM Mono',monospace;line-height:1}
+.cen.base .ck .kv{color:var(--blue)}.cen.super .ck .kv{color:var(--purp)}.cen.mega .ck .kv{color:var(--teal)}
+.ck .kh{font-size:9px;margin-top:2px;opacity:.7}
+.cen.base .ck .kh{color:#185FA5}.cen.super .ck .kh{color:#534AB7}.cen.mega .ck .kh{color:var(--teal)}
+/* FONTE GRID */
+.fg{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:24px}
+.fc{background:var(--surf);border:1px solid var(--bord);border-radius:var(--rlg);overflow:hidden}
+.fc-hd{padding:12px 16px;border-bottom:1px solid var(--bord);display:flex;justify-content:space-between;align-items:center}
+.fc-nm{font-size:14px;font-weight:700}
+.badge{font-size:10px;padding:2px 9px;border-radius:20px;font-weight:600}
+.ba{background:var(--amb2);color:var(--amb)}.bt{background:var(--teal2);color:var(--teal)}
+.bp{background:var(--purp2);color:var(--purp)}.bb{background:var(--blue2);color:var(--blue)}
+.br{background:var(--red2);color:var(--red)}
+.fc-bd{padding:14px 16px}
+/* RITMO */
+.rd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+.rd{border-radius:10px;padding:12px 10px;text-align:center}
+.rd .rl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rd .rv{font-size:22px;font-weight:700;font-family:'DM Mono',monospace;line-height:1}
+.rd .rh{font-size:9px;margin-top:3px;opacity:.65}
+.rd.ld{background:#FEF4E3;border:1px solid #FAC775}.rd.ld .rl,.rd.ld .rh,.rd.ld .rv{color:#7A4500}
+.rd.ag{background:#E3EEF7;border:1px solid #B5D4F4}.rd.ag .rl,.rd.ag .rh,.rd.ag .rv{color:#1A5E8C}
+.rd.cp{background:#EDE8F7;border:1px solid #CECBF6}.rd.cp .rl,.rd.cp .rh,.rd.cp .rv{color:#3C3489}
+.rd.fc{background:#E0F2EB;border:1px solid #9FE1CB}.rd.fc .rl,.rd.fc .rh,.rd.fc .rv{color:#0F6E56}
+/* FIELD */
+.fg2{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:10px}
+.fld{display:flex;flex-direction:column;gap:3px}
+.fld label{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em}
+.fld input,.fld textarea{padding:7px 10px;border-radius:8px;border:1px solid var(--bord);background:var(--bg);color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;width:100%;transition:border .12s}
+.fld input[type=number]{font-family:'DM Mono',monospace;font-weight:600;font-size:15px}
+.fld input:focus,.fld textarea:focus{outline:none;border-color:var(--teal);background:var(--surf)}
+.fld textarea{resize:vertical;min-height:48px;font-size:11px;line-height:1.5}
+.fld.hl input{border-color:var(--amb3);background:var(--amb2)}.fld.hl label{color:var(--amb)}
+.fld input[readonly]{background:var(--surf2);color:var(--text2)}
+/* FUNIL */
+.funil{display:flex;gap:6px;margin-top:10px}
+.fstep{flex:1;background:var(--surf2);border-radius:8px;padding:8px 10px;text-align:center}
+.fstep .fl{font-size:9px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.fstep .fv{font-size:15px;font-weight:700;font-family:'DM Mono',monospace;color:var(--text);margin-top:2px}
+/* EVOL */
+.ev3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.ec{background:var(--surf);border:1px solid var(--bord);border-radius:var(--rlg);padding:16px;text-align:center}
+.ec .em{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.ec .ev{font-size:32px;font-weight:700;font-family:'DM Mono',monospace;line-height:1}
+.ec .er{font-size:12px;color:var(--text2);margin-top:5px}
+.ec.dest{border-color:var(--teal3);background:var(--teal2)}.ec.dest .ev{color:var(--teal)}
+/* AP */
+.ap{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+.ap .ai{font-size:18px;flex-shrink:0}
+.ap .at{font-size:13px;color:var(--text2);line-height:1.6}
+/* EQUIPE */
+.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.tc{background:var(--surf);border:1px solid var(--bord);border-radius:var(--rlg);padding:16px;position:relative}
+.tc-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.tc-av{width:40px;height:40px;border-radius:50%;background:var(--teal2);border:2px solid var(--teal3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--teal);flex-shrink:0;font-family:'DM Mono',monospace}
+.tc-nm{font-size:13px;font-weight:700;line-height:1.2}
+.tc-fn{font-size:11px;color:var(--text3);margin-top:2px}
+.tc-rs{font-size:12px;color:var(--text2);margin-top:6px;line-height:1.6}
+.tc-mt{font-size:10px;font-weight:600;color:var(--teal);margin-top:8px;background:var(--teal2);padding:4px 8px;border-radius:6px;display:inline-block}
+.tc-fo{font-size:10px;color:var(--text3);margin-top:4px}
+
+/* INEG */
+.ig{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.ii{background:rgba(255,255,255,.07);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,.1)}
+.ii .in{font-size:24px;font-weight:700;font-family:'DM Mono',monospace;color:var(--teal3);line-height:1}
+.ii .it{font-size:13px;color:rgba(255,255,255,.75);margin-top:4px;font-weight:500}
+.pg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.pi{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:16px;text-align:center}
+.pi .pic{font-size:24px;margin-bottom:8px}
+.pi .pit{font-size:13px;color:rgba(255,255,255,.8);font-weight:600}
+/* COMP */
+.cg3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.cc{background:var(--surf);border:1px solid var(--bord);border-radius:var(--rlg);padding:18px}
+.cc .ccn{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.cc .ccf{font-size:36px;font-weight:700;font-family:'DM Mono',monospace;line-height:1}
+.cc .ccr{font-size:15px;font-weight:600;margin-top:4px}
+.cc .ccd{font-size:11px;color:var(--text2);margin-top:4px}
+.cc.cb{border-color:var(--blue3)}.cc.cb .ccn,.cc.cb .ccf,.cc.cb .ccr{color:var(--blue)}
+.cc.cs_{border-color:var(--purp3)}.cc.cs_ .ccn,.cc.cs_ .ccf,.cc.cs_ .ccr{color:var(--purp)}
+.cc.cm{border-color:var(--teal3)}.cc.cm .ccn,.cc.cm .ccf,.cc.cm .ccr{color:var(--teal)}
+/* FONTE DOT */
+.fdot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
+/* MODAL */
+
+/* STRAT */
+.sg-st{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px}
+.st-card{background:var(--surf);border:1px solid var(--bord);border-radius:var(--rlg);padding:18px 20px}
+.st-card h3{font-size:13px;font-weight:700;margin-bottom:10px}
+.st-list{list-style:none}
+.st-list li{font-size:12px;color:var(--text2);padding:5px 0;border-bottom:1px solid var(--bord);display:flex;gap:8px;line-height:1.5}
+.st-list li:last-child{border-bottom:none}
+.st-list li::before{content:"→";color:var(--teal);font-weight:700;flex-shrink:0}
+
+/* BLOCO OPORTUNIDADE */
+.oport-bar{background:var(--navy);border-radius:var(--rlg);padding:16px 22px;margin-bottom:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.ob-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px}
+.ob-sub{font-size:11px;color:rgba(255,255,255,.5)}
+.ob-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;flex:1;min-width:300px}
+.oc{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px 16px}
+.oc .ol{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.5);margin-bottom:4px}
+.oc .ov{font-size:18px;font-weight:700;font-family:'DM Mono',monospace;color:var(--teal3);line-height:1}
+.oc .oh{font-size:10px;color:rgba(255,255,255,.4);margin-top:3px}
+.oport-bar.super .oc .ov{color:var(--purp3)}
+.oport-bar.mega .oc .ov{color:#9FE1CB}
+
+/* CHART */
+.cw{background:var(--surf);border:1px solid var(--bord);border-radius:var(--rlg);padding:20px 24px;margin-bottom:16px}
+.cw h3{font-size:13px;font-weight:700;margin-bottom:14px}
+/* MISC */
+.fb{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:12px}
+.fb-me{background:#FEF4E3;color:#7A4500}.fb-pv{background:#E0F2EB;color:#0F6E56}
+.fb-ci{background:#E3EEF7;color:#1A5E8C}.fb-in{background:#EDE8F7;color:#3C3489}
+.fb-ot{background:#FCEBEB;color:#A32D2D}
+@media(max-width:700px){
+  .sg4,.sg3,.ev3,.cg3,.ckpis{grid-template-columns:repeat(2,1fr)}
+  .fg,.tg,.sg-st,.ig,.pg,.rd-grid{grid-template-columns:1fr}
+  .sg2{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div>
+    <div class="tb-title">🦷 Campanha Abrindo Sorrisos — Araruna Odontologia</div>
+    <div class="tb-sub">Dashboard Abril/2026 · Ticket médio: R$ 7.000</div>
+  </div>
+  <div class="tb-actions">
+    <button class="btn" id="btnTheme" onclick="toggleTheme()">🌙</button>
+  </div>
+</div>
+
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nt on" onclick="showP('marco',this)">📊 Março — Resultado</div>
+  <div class="nt" onclick="showP('metas',this)">🎯 Metas Abril</div>
+  <div class="nt" onclick="showP('captacao',this)">📋 Captação</div>
+  <div class="nt" onclick="showP('equipe',this)">👥 Equipe</div>
+  <div class="nt" onclick="showP('estrategia',this)">📣 Estratégia</div>
+  <div class="nt" onclick="showP('comparativo',this)">📈 Comparativo</div>
+  <div class="nt" onclick="showP('ineg',this)">⚡ Inegociáveis</div>
+</div>
+
+<!-- ABA MARÇO -->
+<div class="page on" id="page-marco"><div class="wrap">
+
+  <!-- CONTEXTO -->
+  <div style="background:var(--blue2);border:1px solid var(--blue3);border-radius:var(--rlg);padding:14px 20px;margin-bottom:16px;font-size:12px;color:var(--blue)">
+    📌 <strong>Campanha Energia Marçoana:</strong> 18/03 a 31/03/2026 · 12 dias úteis · Os dados abaixo são exclusivos do período da campanha, usados como base de aprendizado para a Campanha Abrindo Sorrisos de abril.
+  </div>
+
+  <div class="banner miss">
+    <div class="bt">❌ Campanha Energia Marçoana não bateu a meta</div>
+    <div class="bd">Em todos os indicadores ficamos abaixo — leads, agendamentos, comparecimentos, fechamentos e receita. O aprendizado daqui é o combustível para abril.</div>
+  </div>
+
+  <!-- KPIs CAMPANHA -->
+  <div class="stitle">Resultado Real — Campanha Energia Marçoana (18 a 31/03)</div>
+  <div class="sg4">
+    <div class="sc red"><div class="lbl">⚡ Leads</div><div class="val">432</div><div class="sub">Meta: 571 · −24,3%</div></div>
+    <div class="sc red"><div class="lbl">📅 Agendamentos</div><div class="val">98</div><div class="sub">Meta: 228 · −57,0%</div></div>
+    <div class="sc red"><div class="lbl">🤝 Comparecimentos</div><div class="val">33</div><div class="sub">Meta: 92 · −64,1%</div></div>
+    <div class="sc red"><div class="lbl">✅ Fechamentos</div><div class="val">19</div><div class="sub">Meta: 36 · −47,2%</div></div>
+  </div>
+  <div class="sg3">
+    <div class="sc red"><div class="lbl">🏷️ Ticket Médio (vendas)</div><div class="val">R$3.863</div><div class="sub">Meta: R$7.000 · −44,8% ⚠️</div></div>
+    <div class="sc red"><div class="lbl">💰 Receita Fechada</div><div class="val" style="font-size:20px">R$73.402</div><div class="sub">Meta: R$252.000 · −70,9%</div></div>
+    <div class="sc amb"><div class="lbl">📋 Valor Orçado (oportunidades)</div><div class="val" style="font-size:20px">R$401.508</div><div class="sub">Pipeline gerado no período 🔥</div></div>
+  </div>
+
+  <!-- TAXAS DE CONVERSÃO -->
+  <div class="stitle">Taxas de Conversão da Campanha</div>
+  <div class="sg4">
+    <div class="sc blue"><div class="lbl">Agend. / Leads</div><div class="val">22,7%</div><div class="sub">98 de 432 leads agendaram</div></div>
+    <div class="sc purp"><div class="lbl">Comp. / Agend.</div><div class="val">33,7%</div><div class="sub">33 de 98 agendados compareceram</div></div>
+    <div class="sc teal"><div class="lbl">Fech. / Comp.</div><div class="val">57,6%</div><div class="sub">19 de 33 que vieram fecharam</div></div>
+    <div class="sc amb"><div class="lbl">TM Oportunidade</div><div class="val">R$11.471</div><div class="sub">ticket médio dos orçamentos</div></div>
+  </div>
+
+  <!-- COMPARATIVO META vs REAL -->
+  <div class="stitle">Meta vs Resultado — Campanha Energia Marçoana</div>
+  <div class="scard">
+    <p style="font-size:12px;color:var(--text3);margin-bottom:14px;padding:10px 14px;background:var(--amb2);border-radius:8px;border:1px solid var(--amb3)">
+      💡 <strong style="color:var(--amb)">Meta de receita:</strong> <span style="color:var(--amb)">R$252.000 fixos para o período da campanha (18 a 31/03 · 12 dias úteis). Resultado: R$73.402 — ficamos 70,9% abaixo.</span>
+    </p>
+    <table class="tbl">
+      <thead><tr><th>Indicador</th><th>Meta da Campanha</th><th>Resultado Real</th><th>Diferença</th></tr></thead>
+      <tbody>
+        <tr><td>⚡ Leads captados</td><td>571</td><td>432</td><td class="neg">−139 (−24,3%)</td></tr>
+        <tr><td>📅 Agendamentos</td><td>228</td><td>98</td><td class="neg">−130 (−57,0%)</td></tr>
+        <tr><td>🤝 Comparecimentos</td><td>92</td><td>33</td><td class="neg">−59 (−64,1%)</td></tr>
+        <tr><td>✅ Fechamentos</td><td>36</td><td>19</td><td class="neg">−17 (−47,2%)</td></tr>
+        <tr><td>🏷️ Ticket Médio (vendas)</td><td>R$ 7.000,00</td><td>R$ 3.863,28</td><td class="neg">−R$3.136 (−44,8%) ⚠️</td></tr>
+        <tr><td>🏷️ Ticket Médio (oportunidades)</td><td>—</td><td>R$ 11.471,67</td><td class="pos">Pipeline de alto valor 🔥</td></tr>
+        <tr><td>📋 Valor Orçado (pipeline gerado)</td><td>—</td><td>R$ 401.508,59</td><td class="neu">Oportunidades em aberto</td></tr>
+        <tr><td><strong>💰 Receita Fechada</strong></td><td><strong>R$ 252.000,00</strong></td><td><strong>R$ 73.402,27</strong></td><td class="neg"><strong>−R$178.597 (−70,9%)</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RESULTADO POR FONTE -->
+  <div class="stitle">Resultado por Fonte — Período da Campanha (18 a 31/03)</div>
+  <div class="scard">
+    <table class="tbl">
+      <thead><tr><th>Fonte</th><th>Leads</th><th>Agend.</th><th>Comp.</th><th>Fechamentos</th><th>% dos Fech.</th><th>Receita</th><th>Ticket Médio</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fdot" style="background:#EF9F27"></span><strong>ME – Marketing Externo</strong></td><td>90</td><td>24</td><td>4</td><td>1</td><td>5,3%</td><td>R$7.568</td><td class="neg">R$7.568</td></tr>
+        <tr><td><span class="fdot" style="background:#5DCAA5"></span><strong>PV – Pós-venda</strong></td><td>114</td><td>41</td><td>10</td><td>6</td><td>31,6%</td><td>R$27.874</td><td class="neg">R$4.645</td></tr>
+        <tr><td><span class="fdot" style="background:#85B7EB"></span><strong>CI – Campanha Interna</strong></td><td>212</td><td>15</td><td>5</td><td>1</td><td>5,3%</td><td>R$930</td><td class="neg">R$930 ⚠️</td></tr>
+        <tr><td><span class="fdot" style="background:#AFA9EC"></span><strong>IN – Indicações</strong></td><td>8</td><td>9</td><td>6</td><td>3</td><td>15,8%</td><td>R$17.100</td><td class="pos">R$5.700 🏆</td></tr>
+        <tr><td><span class="fdot" style="background:#E26060"></span><strong>OT – Outros</strong></td><td>8</td><td>9</td><td>8</td><td>8</td><td>42,1%</td><td>R$19.929</td><td class="neg">R$2.491</td></tr>
+        <tr class="tot"><td>TOTAL</td><td>432</td><td>98</td><td>33</td><td>19</td><td>100%</td><td>R$73.402</td><td>R$3.863</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- NOTA MARÇO COMPLETO -->
+  <div style="background:var(--teal2);border:1px solid var(--teal3);border-radius:var(--rlg);padding:14px 20px;margin-bottom:20px;font-size:12px;color:var(--teal)">
+    📊 <strong>Março completo (1 a 31/03):</strong> 44 fechamentos · R$200.550 de receita · R$893.657 orçado. Esses dados do mês inteiro foram usados como base histórica para calcular as proporções e metas de abril — não como comparação da campanha.
+  </div>
+
+  <!-- GRÁFICO -->
+  <div class="cw"><h3>📊 Fechamentos e Receita por Fonte — Campanha Energia Marçoana</h3><canvas id="chartM" style="max-height:240px"></canvas></div>
+
+  <!-- APRENDIZADOS -->
+  <div class="scard">
+    <h3>🔍 O que aprendemos na campanha — e o que muda em abril</h3>
+    <div class="ap"><div class="ai">⚠️</div><div class="at"><strong>Funil entrou muito mais fraco que o esperado:</strong> Dos 571 leads planejados, vieram 432. Dos 228 agendamentos previstos, só 98 aconteceram. O topo do funil precisa ser turbinado desde o dia 1 de abril.</div></div>
+    <div class="ap"><div class="ai">💰</div><div class="at"><strong>Ticket médio muito abaixo:</strong> R$3.863 vs meta de R$7.000. Mesmo quem fechou, fechou tratamentos de menor valor. Em abril, o foco é em tratamentos completos e de maior ticket.</div></div>
+    <div class="ap"><div class="ai">🏆</div><div class="at"><strong>Indicações têm o melhor ticket:</strong> Com apenas 3 fechamentos, IN gerou R$17.100 — ticket de R$5.700, o maior da campanha. Fortalecer indicações é a prioridade #1 de abril.</div></div>
+    <div class="ap"><div class="ai">♻️</div><div class="at"><strong>Reativações foram o motor da campanha:</strong> 6 fechamentos e maior volume de agendamentos (41). A base de pacientes é forte — continuar trabalhando o pós-venda com intensidade.</div></div>
+    <div class="ap"><div class="ai">📣</div><div class="at"><strong>Campanha Interna: volume sem conversão:</strong> 212 leads gerados mas apenas 1 fechamento com ticket de R$930. Precisa de revisão completa na qualificação e no processo antes da consulta.</div></div>
+    <div class="ap"><div class="ai">🔥</div><div class="at"><strong>Pipeline de R$401k é a grande oportunidade:</strong> Ticket médio de oportunidade de R$11.471. Parte desse pipeline aberto pode se converter em abril — o time precisa fazer follow-up ativo nesses orçamentos.</div></div>
+  </div>
+</div></div>
+
+<!-- ABA METAS -->
+<div class="page" id="page-metas"><div class="wrap">
+  <div class="tbar">
+    <div><div class="tbar-lbl">💰 Ticket Médio por Fechamento</div><div class="tbar-hint">Altere e clique em Recalcular → tudo se atualiza</div></div>
+    <div class="ti"><span>R$</span><input type="number" id="ticketMedio" value="7000" min="1000" oninput="recalc()"></div>
+    <button class="rcalc" onclick="recalc()">↺ Recalcular tudo</button>
+    <div class="ti du" style="margin-left:auto"><span>📅 Dias úteis</span><input type="number" id="diasUteis" value="22.5" min="1" max="31" step="0.5" oninput="recalc()"></div>
+  </div>
+
+  <div class="stitle">Os 3 Cenários de Meta — Abril 2026</div>
+
+  <div class="cen base">
+    <div><div class="emo">🎯</div><div class="ct">Meta Base</div><div class="cs">O mínimo obrigatório. Sem isso, nada mais importa.</div></div>
+    <div class="ckpis">
+      <div class="ck"><div class="kl">Receita</div><div class="kv" id="b-rec">R$300k</div></div>
+      <div class="ck"><div class="kl">Fech. no mês</div><div class="kv" id="b-fech">43</div></div>
+      <div class="ck"><div class="kl">Por dia útil</div><div class="kv" id="b-dia">~1,9/dia</div><div class="kh">ritmo por dia útil</div></div>
+      <div class="ck"><div class="kl">Comparec./mês</div><div class="kv" id="b-comp">108</div></div>
+      <div class="ck"><div class="kl">Agend./mês</div><div class="kv" id="b-agend">269</div></div>
+      <div class="ck"><div class="kl">Leads/mês</div><div class="kv" id="b-leads">673</div></div>
+    </div>
+  </div>
+
+  <!-- BLOCO OPORTUNIDADE BASE -->
+  <div class="oport-bar">
+    <div>
+      <div class="ob-title">📋 Funil de Oportunidades — Meta Base</div>
+      <div class="ob-sub">Separado do funil de leads · Taxa de conversão: 30% do orçado vira receita</div>
+    </div>
+    <div class="ob-cards">
+      <div class="oc">
+        <div class="ol">Oportunidade total/mês</div>
+        <div class="ov" id="b-oport-total">R$1.000.000</div>
+        <div class="oh">para gerar R$300k de receita</div>
+      </div>
+      <div class="oc">
+        <div class="ol">Oportunidade por dia útil</div>
+        <div class="ov" id="b-oport-dia">R$44.444</div>
+        <div class="oh">em orçamentos apresentados/dia</div>
+      </div>
+      <div class="oc">
+        <div class="ol">Oportunidade por comparecimento</div>
+        <div class="ov">~R$10.000</div>
+        <div class="oh">cada paciente que chega vale isso</div>
+      </div>
+    </div>
+  </div>
+  <div class="fg" id="f-base"></div>
+
+  <div class="cen super">
+    <div><div class="emo">🚀</div><div class="ct">Super Meta</div><div class="cs">+15% acima da meta base. Todo o time ganha mais.</div><div class="prm">🏆 Comissão + R$200 para todos · pago até 20/mai</div></div>
+    <div class="ckpis">
+      <div class="ck"><div class="kl">Receita</div><div class="kv" id="s-rec">R$345k</div></div>
+      <div class="ck"><div class="kl">Fech. no mês</div><div class="kv" id="s-fech">50</div></div>
+      <div class="ck"><div class="kl">Por dia útil</div><div class="kv" id="s-dia">~2,2/dia</div><div class="kh">ritmo por dia útil</div></div>
+      <div class="ck"><div class="kl">Comparec./mês</div><div class="kv" id="s-comp">124</div></div>
+      <div class="ck"><div class="kl">Agend./mês</div><div class="kv" id="s-agend">309</div></div>
+      <div class="ck"><div class="kl">Leads/mês</div><div class="kv" id="s-leads">774</div></div>
+    </div>
+  </div>
+
+  <!-- BLOCO OPORTUNIDADE SUPER -->
+  <div class="oport-bar super">
+    <div>
+      <div class="ob-title">📋 Funil de Oportunidades — Super Meta</div>
+      <div class="ob-sub">Separado do funil de leads · Taxa de conversão: 30% do orçado vira receita</div>
+    </div>
+    <div class="ob-cards">
+      <div class="oc">
+        <div class="ol">Oportunidade total/mês</div>
+        <div class="ov" id="s-oport-total">R$1.150.000</div>
+        <div class="oh">para gerar R$345k de receita</div>
+      </div>
+      <div class="oc">
+        <div class="ol">Oportunidade por dia útil</div>
+        <div class="ov" id="s-oport-dia">R$51.111</div>
+        <div class="oh">em orçamentos apresentados/dia</div>
+      </div>
+      <div class="oc">
+        <div class="ol">Oportunidade por comparecimento</div>
+        <div class="ov">~R$10.000</div>
+        <div class="oh">cada paciente que chega vale isso</div>
+      </div>
+    </div>
+  </div>
+  <div class="fg" id="f-super"></div>
+
+  <div class="cen mega">
+    <div><div class="emo">🔥</div><div class="ct">Mega Meta</div><div class="cs">+30% acima da meta base. Modo turbo — o time no limite.</div><div class="prm">🔥 Comissão + R$500 para todos · pago até 20/mai</div></div>
+    <div class="ckpis">
+      <div class="ck"><div class="kl">Receita</div><div class="kv" id="m-rec">R$390k</div></div>
+      <div class="ck"><div class="kl">Fech. no mês</div><div class="kv" id="m-fech">56</div></div>
+      <div class="ck"><div class="kl">Por dia útil</div><div class="kv" id="m-dia">~2,5/dia</div><div class="kh">ritmo por dia útil</div></div>
+      <div class="ck"><div class="kl">Comparec./mês</div><div class="kv" id="m-comp">139</div></div>
+      <div class="ck"><div class="kl">Agend./mês</div><div class="kv" id="m-agend">348</div></div>
+      <div class="ck"><div class="kl">Leads/mês</div><div class="kv" id="m-leads">870</div></div>
+    </div>
+  </div>
+
+  <!-- BLOCO OPORTUNIDADE MEGA -->
+  <div class="oport-bar mega">
+    <div>
+      <div class="ob-title">📋 Funil de Oportunidades — Mega Meta</div>
+      <div class="ob-sub">Separado do funil de leads · Taxa de conversão: 30% do orçado vira receita</div>
+    </div>
+    <div class="ob-cards">
+      <div class="oc">
+        <div class="ol">Oportunidade total/mês</div>
+        <div class="ov" id="m-oport-total">R$1.300.000</div>
+        <div class="oh">para gerar R$390k de receita</div>
+      </div>
+      <div class="oc">
+        <div class="ol">Oportunidade por dia útil</div>
+        <div class="ov" id="m-oport-dia">R$57.778</div>
+        <div class="oh">em orçamentos apresentados/dia</div>
+      </div>
+      <div class="oc">
+        <div class="ol">Oportunidade por comparecimento</div>
+        <div class="ov">~R$10.000</div>
+        <div class="oh">cada paciente que chega vale isso</div>
+      </div>
+    </div>
+  </div>
+  <div class="fg" id="f-mega"></div>
+</div></div>
+
+<!-- ABA CAPTAÇÃO -->
+<div class="page" id="page-captacao"><div class="wrap">
+  <div class="stitle">Distribuição por Fonte — Os 3 Cenários</div>
+  <div class="scard">
+    <table class="tbl">
+      <thead><tr><th>Fonte</th><th>% Histórico</th><th>🎯 Base</th><th>🚀 Super</th><th>🔥 Mega</th><th>Responsáveis</th></tr></thead>
+      <tbody id="captTb"></tbody>
+    </table>
+  </div>
+  <div class="stitle">O que cada fonte precisa fazer todo dia útil — Meta Base</div>
+  <div id="funisC"></div>
+</div></div>
+
+<!-- ABA EQUIPE -->
+<div class="page" id="page-equipe"><div class="wrap">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+    <div class="stitle" style="margin:0">Time Araruna Odontologia — Abril 2026</div>
+  </div>
+  <div class="tg" id="teamG"></div>
+</div></div>
+
+<!-- ABA ESTRATÉGIA -->
+<div class="page" id="page-estrategia"><div class="wrap">
+  <div class="stitle">Estratégia da Campanha — Abril 2026</div>
+  <div class="sg-st">
+    <div class="st-card"><h3>🎯 Foco Principal de Abril</h3><ul class="st-list">
+      <li>Elevar ticket médio de R$4.558 (março) para R$7.000</li>
+      <li>Fechar tratamentos completos e de maior valor</li>
+      <li>Qualificar os pacientes antes da consulta</li>
+      <li>Reduzir dependência da categoria "Outros"</li>
+    </ul></div>
+    <div class="st-card"><h3>📣 Marketing Externo — Agência</h3><ul class="st-list">
+      <li>Meta: 100–120 leads/mês · ~5 leads por dia útil</li>
+      <li>Revisar criativos focados em tratamentos premium</li>
+      <li>Acompanhar CPL semanalmente com RK</li>
+      <li>Segmentar por tratamento: implante, lente, aparelho</li>
+    </ul></div>
+    <div class="st-card"><h3>🏆 Indicações — Prioridade Máxima</h3><ul class="st-list">
+      <li>Ticket de R$12.257 em março — melhor fonte da clínica</li>
+      <li>Dr. Jefferson e Dra. Ana ativando rede de pacientes</li>
+      <li>Programa: paciente indica e ganha benefício</li>
+      <li>Meta: mínimo 3 indicações novas por semana</li>
+    </ul></div>
+    <div class="st-card"><h3>♻️ Pós-venda — Reativar a Base</h3><ul class="st-list">
+      <li>Maika e Micaele: busca ativa 6 meses, 1 ano e orçamentos parados</li>
+      <li>Resgatar pacientes com tratamentos aprovados não iniciados</li>
+      <li>Follow-up diário em agendados que não compareceram</li>
+      <li>79 agendamentos em março mostram o potencial enorme aqui</li>
+    </ul></div>
+    <div class="st-card"><h3>🎬 Conteúdo — Douglas Fontes</h3><ul class="st-list">
+      <li>10 vídeos por semana + stories diários</li>
+      <li>Mostrar o valor dos tratamentos — educar antes de vender</li>
+      <li>Depoimentos reais de pacientes satisfeitos</li>
+      <li>Bastidores da clínica e apresentação da equipe</li>
+    </ul></div>
+    <div class="st-card"><h3>🏥 Experiência na Clínica</h3><ul class="st-list">
+      <li>Rafaela: ambiente, TV e música alinhados à identidade da marca</li>
+      <li>Euzuita: limpeza e organização impecável em todo momento</li>
+      <li>Dr. Wanderson: avaliações com foco em tratamentos de alto valor</li>
+      <li>Dra. Ana Caroline: acolhimento diferenciado e fidelização ativa</li>
+    </ul></div>
+  </div>
+</div></div>
+
+<!-- ABA COMPARATIVO -->
+<div class="page" id="page-comparativo"><div class="wrap">
+  <div class="stitle">Os 3 Cenários de Abril — Visão Rápida</div>
+  <div class="cg3">
+    <div class="cc cb"><div class="ccn">🎯 Meta Base</div><div class="ccf" id="cv-bf">43</div><div class="ccr" id="cv-br">R$ 300.000</div><div class="ccd" id="cv-bd">2 fech/dia útil</div></div>
+    <div class="cc cs_"><div class="ccn">🚀 Super Meta</div><div class="ccf" id="cv-sf">50</div><div class="ccr" id="cv-sr">R$ 345.000</div><div class="ccd" id="cv-sd">2 fech/dia · Prêmio +R$200</div></div>
+    <div class="cc cm"><div class="ccn">🔥 Mega Meta</div><div class="ccf" id="cv-mf">56</div><div class="ccr" id="cv-mr">R$ 390.000</div><div class="ccd" id="cv-md">2 fech/dia · Prêmio +R$500</div></div>
+  </div>
+
+  <div class="cw"><h3>📊 Fechamentos necessários por fonte — 3 cenários</h3><canvas id="chartC" style="max-height:250px"></canvas></div>
+
+  <div class="stitle">Ritmo Diário por Fonte — O que cada time precisa fazer todo dia (Meta Base)</div>
+  <div id="ritmoD"></div>
+
+  <div class="stitle">Março vs Abril — Comparativo de Evolução</div>
+  <div class="scard">
+    <table class="tbl">
+      <thead><tr><th>Indicador</th><th>Março Real</th><th>Abril — Meta Base</th><th>Variação esperada</th></tr></thead>
+      <tbody>
+        <tr><td>💰 Receita</td><td>R$200.550</td><td id="cmp-r">R$300.000</td><td class="pos" id="cmp-rd">+49,6%</td></tr>
+        <tr><td>✅ Fechamentos</td><td>44</td><td id="cmp-f">43</td><td id="cmp-fd" class="neg">−2,3%</td></tr>
+        <tr><td>🏷️ Ticket Médio</td><td>R$4.558</td><td id="cmp-t">R$7.000</td><td class="pos" id="cmp-td">+53,6%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div></div>
+
+<!-- ABA INEGOCIÁVEIS -->
+<div class="page" id="page-ineg"><div class="wrap">
+  <div class="stitle">Os Inegociáveis — Campanha Abrindo Sorrisos</div>
+  <div class="banner dark-b">
+    <div class="decl">"Vou chegar lá. Vou bater a meta. Vou conquistar os objetivos. Vou ganhar mais bonificação. Se você quiser ir comigo, te levo. Se não quiser, vou da mesma forma."</div>
+    <div class="ig">
+      <div class="ii"><div class="in">01</div><div class="it">Bater a meta</div></div>
+      <div class="ii"><div class="in">02</div><div class="it">Comprometimento total</div></div>
+      <div class="ii"><div class="in">03</div><div class="it">Qualidade em tudo</div></div>
+      <div class="ii"><div class="in">04</div><div class="it">Foco nas pessoas</div></div>
+      <div class="ii"><div class="in">05</div><div class="it">Energia + Entusiasmo</div></div>
+      <div class="ii"><div class="in">06</div><div class="it">O sorriso é o produto</div></div>
+    </div>
+    <div class="pg" style="margin-top:16px">
+      <div class="pi"><div class="pic">🎯</div><div class="pit">Propósito</div></div>
+      <div class="pi"><div class="pic">✨</div><div class="pit">Realizar Sonhos</div></div>
+      <div class="pi"><div class="pic">🏆</div><div class="pit">Entregar o Melhor</div></div>
+      <div class="pi"><div class="pic">🤗</div><div class="pit">Acolher</div></div>
+    </div>
+  </div>
+  <div class="stitle">Prêmios da Campanha</div>
+  <div class="sg4">
+    <div class="sc blue"><div class="lbl">🎯 Meta Base</div><div class="val" style="font-size:20px">R$300k</div><div class="sub">Comissão normal</div></div>
+    <div class="sc purp"><div class="lbl">🚀 Super Meta</div><div class="val" style="font-size:20px">R$345k</div><div class="sub">Comissão + R$200 para todos</div></div>
+    <div class="sc teal"><div class="lbl">🔥 Mega Meta</div><div class="val" style="font-size:20px">R$390k</div><div class="sub">Comissão + R$500 para todos</div></div>
+    <div class="sc amb"><div class="lbl">📅 Pagamento até</div><div class="val">20/mai</div><div class="sub">20 de maio de 2026</div></div>
+  </div>
+</div></div>
+
+<script>
+const FONTES=[
+  {key:'me',nome:'ME – Marketing Externo',badge:'ba',pct:.206,cor:'#EF9F27',resp:'Agência de Tráfego · Raylanny · Micaele',est:'Meta: 100–120 leads/mês. Revisar criativos focados em tratamentos de alto valor. Acompanhar CPL semanalmente.'},
+  {key:'pv',nome:'PV – Pós-venda',badge:'bt',pct:.323,cor:'#5DCAA5',resp:'Maika · Micaele',est:'Busca ativa em pacientes de 6 meses, 1 ano e orçamentos parados. Follow-up diário nos agendados que não compareceram.'},
+  {key:'ci',nome:'CI – Campanha Interna',badge:'bb',pct:.148,cor:'#85B7EB',resp:'Rayanne Santos · Raylanny Mendes',est:'Qualificar melhor os pacientes antes da consulta. Foco em tratamentos de maior valor. Revisar a proposta da campanha.'},
+  {key:'in',nome:'IN – Indicações',badge:'bp',pct:.323,cor:'#AFA9EC',resp:'Dr. Jefferson · Dr. Wanderson · Dra. Ana Caroline · Micaele · Raylanny',est:'Prioridade #1. Ticket médio de R$12.257 em março. Meta: mínimo 3 indicações novas por semana por médico.'},
+];
+
+const EQ_DEF=[
+  {ini:'RK',nome:'Rick',func:'Coordenação Geral',resp:'Lidera a estratégia da campanha, acompanha os números diários e a parceria com a agência',meta:'Garantir que o time execute o plano todos os dias',fonte:'Todas'},
+  {ini:'RL',nome:'Raylanny Mendes',func:'Agendamentos',resp:'Responsável pelos agendamentos em todas as frentes. Meta diária: 14 a 15 agendamentos por dia',meta:'14–15 agendamentos por dia',fonte:'ME · IN'},
+  {ini:'MI',nome:'Micaele',func:'Pós-venda + Controle',resp:'Alimenta o pós-venda, faz reativação de pacientes e controla os números diários da campanha',meta:'Preencher o controle diário sem falhar',fonte:'ME · RE · IN'},
+  {ini:'RY',nome:'Rayanne Santos',func:'Indicações + CI',resp:'Ativa o programa de indicações e coordena a campanha interna com pacientes da clínica',meta:'3 indicações novas por semana',fonte:'CI · IN'},
+  {ini:'MK',nome:'Maika',func:'Pós-venda',resp:'Busca ativa em pacientes de 6 meses, 1 ano e com orçamentos aprovados que ainda não iniciaram o tratamento',meta:'Resgatar pacientes de alto valor diariamente',fonte:'RE'},
+  {ini:'JF',nome:'Dr. Jefferson',func:'Indicações + Fechamento',resp:'Ativa sua rede de pacientes para gerar indicações qualificadas e participa dos fechamentos',meta:'Mínimo 2 indicações por semana',fonte:'IN'},
+  {ini:'AC',nome:'Dra. Ana Caroline',func:'Indicações + Clínica',resp:'Gera indicações através da excelência no atendimento. Fideliza e encanta cada paciente',meta:'Acolhimento nota 10 em cada consulta',fonte:'IN'},
+  {ini:'WD',nome:'Dr. Wanderson',func:'Avaliações, Orçamentos e Indicações',resp:'Realiza novas avaliações com foco em tratamentos de alto valor e gera indicações ativas de pacientes',meta:'Converter avaliação em orçamento acima de R$7.000 e gerar indicações',fonte:'ME · IN'},
+  {ini:'DG',nome:'Douglas Fontes',func:'Conteúdo Digital',resp:'Produz 10 vídeos por semana e stories diários mostrando resultados, bastidores e a equipe da clínica',meta:'10 vídeos/semana + stories todos os dias',fonte:'Orgânico'},
+  {ini:'RF',nome:'Rafaela Leite',func:'Recepção + Ambiente',resp:'Cuida da experiência do paciente na recepção — ambiente, TV, música e primeiro acolhimento',meta:'Paciente entra curioso e sai encantado',fonte:''},
+  {ini:'EU',nome:'Euzuita',func:'Limpeza e Organização',resp:'Mantém a clínica limpa, organizada e impecável em todos os momentos do dia',meta:'Limpeza e organização = parte do produto',fonte:''},
+  {ini:'AG',nome:'Agência de Tráfego',func:'Marketing Pago',resp:'Gerencia os anúncios no Meta Ads gerando leads qualificados com CPL controlado e crescente',meta:'CPL abaixo de R$30 · 120 leads/mês',fonte:'ME'},
+];
+
+let eqData=JSON.parse(JSON.stringify(EQ_DEF));
+let cM,cC;
+
+function showP(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nt').forEach(t=>t.classList.remove('on'));
+  document.getElementById('page-'+id).classList.add('on');
+  el.classList.add('on');
+  if(id==='comparativo') renderCC();
+  if(id==='marco') renderCM();
+}
+
+// Ritmo: se >=1/dia mostra "X por dia", senão "1 a cada X dias"
+function ritmo(n,du){ const pd=n/du; return pd>=1 ? Math.round(pd)+' por dia' : '1 a cada '+Math.round(du/n)+' dias'; }
+// Ritmo para cards de cenário: total no mês + decimal com 1 casa
+function ritmoCen(f,du){ const pd=(f/du).toFixed(1); return '~'+pd+' por dia útil'; }
+
+function calcC(rec,tm,du){
+  // Funil: leads →(40%)→ agend →(40%)→ comp →(30%)→ fech
+  const f=Math.round(rec/tm);
+  const c=Math.round(f/0.30);   // comp = fech ÷ 30%
+  const a=Math.round(c/0.40);   // agend = comp ÷ 40%
+  const l=Math.round(a/0.40);   // leads = agend ÷ 40%
+  return {rec,f,c,a,l};
+}
+
+function recalc(){
+  const tm=parseInt(document.getElementById('ticketMedio').value)||7000;
+  const du=parseFloat(document.getElementById("diasUteis").value)||22.5;
+  const B=calcC(300000,tm,du), S=calcC(345000,tm,du), M=calcC(390000,tm,du);
+  const s=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  const fk=v=>'R$'+Math.round(v/1000)+'k';
+  s('b-rec',fk(B.rec));s('b-fech',B.f);s('b-dia',ritmoCen(B.f,du));s('b-comp',B.c);s('b-agend',B.a);s('b-leads',B.l);
+  s('s-rec',fk(S.rec));s('s-fech',S.f);s('s-dia',ritmoCen(S.f,du));s('s-comp',S.c);s('s-agend',S.a);s('s-leads',S.l);
+  s('m-rec',fk(M.rec));s('m-fech',M.f);s('m-dia',ritmoCen(M.f,du));s('m-comp',M.c);s('m-agend',M.a);s('m-leads',M.l);
+  s('cv-bf',B.f);s('cv-br','R$ '+B.rec.toLocaleString('pt-BR'));s('cv-bd',ritmoCen(B.f,du)+' · 22,5 dias úteis');
+  s('cv-sf',S.f);s('cv-sr','R$ '+S.rec.toLocaleString('pt-BR'));s('cv-sd',ritmoCen(S.f,du)+' · Prêmio +R$200');
+  s('cv-mf',M.f);s('cv-mr','R$ '+M.rec.toLocaleString('pt-BR'));s('cv-md',ritmoCen(M.f,du)+' · Prêmio +R$500');
+  s('cmp-r','R$'+B.rec.toLocaleString('pt-BR'));s('cmp-f',B.f);s('cmp-t','R$'+tm.toLocaleString('pt-BR'));
+  const dR=((B.rec/200550.57)-1)*100,dF=((B.f/44)-1)*100,dT=((tm/4558.88)-1)*100;
+  const dE=(id,v)=>{const e=document.getElementById(id);if(e){e.textContent=(v>=0?'+':'')+v.toFixed(1)+'%';e.className=v>=0?'pos':'neg';}};
+  dE('cmp-rd',dR);dE('cmp-fd',dF);dE('cmp-td',dT);
+  // Atualizar funil de oportunidades
+  const fmtOp = v => 'R$' + Math.round(v).toLocaleString('pt-BR');
+  const s2=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  s2('b-oport-total', fmtOp(B.rec/0.30)); s2('b-oport-dia', fmtOp((B.rec/0.30)/du));
+  s2('s-oport-total', fmtOp(S.rec/0.30)); s2('s-oport-dia', fmtOp((S.rec/0.30)/du));
+  s2('m-oport-total', fmtOp(M.rec/0.30)); s2('m-oport-dia', fmtOp((M.rec/0.30)/du));
+  renderFontes(B,S,M,tm,du);
+  renderCapt(B,S,M,du);
+  renderRitmo(B,du);
+  if(document.getElementById('page-comparativo').classList.contains('on')) renderCC();
+  saveL();
+}
+
+function renderFontes(B,S,M,tm,du){
+  ['base','super','mega'].forEach((c,i)=>{
+    const C=[B,S,M][i], el=document.getElementById('f-'+c);
+    if(!el) return;
+    el.innerHTML='';
+    FONTES.forEach(f=>{
+      const fech=Math.round(C.f*f.pct),rec=fech*tm;
+      const comp=Math.round(fech/0.30),agend=Math.round(comp/0.40),leads=Math.round(agend/0.40);
+      // Ritmo: mostrar "X por dia" se >=1, ou "1 a cada X dias" se <1
+      const ritmo = (n) => {
+        const pd = n/du;
+        if(pd >= 1) return Math.round(pd)+' por dia';
+        return '1 a cada '+Math.round(du/n)+' dias';
+      };
+      el.innerHTML+=`
+      <div class="fc">
+        <div class="fc-hd"><div class="fc-nm">${f.nome}</div><span class="badge ${f.badge}">${Math.round(f.pct*100)}% do total</span></div>
+        <div class="fc-bd">
+          <p style="font-size:11px;color:var(--text3);margin-bottom:10px">Meta do mês e ritmo necessário:</p>
+          <div class="rd-grid">
+            <div class="rd ld"><div class="rl">⚡ Leads</div><div class="rv" style="font-size:16px">${leads}</div><div class="rh">${ritmo(leads)}</div></div>
+            <div class="rd ag"><div class="rl">📅 Agendamentos</div><div class="rv" style="font-size:16px">${agend}</div><div class="rh">${ritmo(agend)}</div></div>
+            <div class="rd cp"><div class="rl">🤝 Comparec.</div><div class="rv" style="font-size:16px">${comp}</div><div class="rh">${ritmo(comp)}</div></div>
+            <div class="rd fc"><div class="rl">✅ Fechamentos</div><div class="rv" style="font-size:16px">${fech}</div><div class="rh">${ritmo(fech)}</div></div>
+          </div>
+          <div class="fg2" style="margin-top:12px">
+            <div class="fld hl"><label>Fechamentos/mês</label><input type="number" value="${fech}" oninput="onFC(this,${tm})"></div>
+            <div class="fld hl"><label>Receita esperada</label><input type="number" class="rf" value="${rec}" oninput="onRC(this,${tm})"></div>
+          </div>
+          <div class="fld" style="margin-bottom:8px"><label>Responsáveis</label><input type="text" value="${f.resp}"></div>
+          <div class="fld"><label>Estratégia</label><textarea>${f.est}</textarea></div>
+          <div class="funil">
+            <div class="fstep"><div class="fl">Leads</div><div class="fv">${leads}</div></div>
+            <div class="fstep"><div class="fl">Agend.</div><div class="fv">${agend}</div></div>
+            <div class="fstep"><div class="fl">Comp.</div><div class="fv">${comp}</div></div>
+            <div class="fstep"><div class="fl">Fech.</div><div class="fv">${fech}</div></div>
+          </div>
+        </div>
+      </div>`;
+    });
+  });
+}
+
+function onFC(el,tm){const v=parseInt(el.value)||0;const r=el.closest('.fg2').querySelector('.rf');if(r)r.value=v*tm;}
+function onRC(el,tm){const v=parseInt(el.value)||0;const f=el.closest('.fg2').querySelector('input[type=number]');if(f&&tm>0)f.value=Math.round(v/tm);}
+
+function renderCapt(B,S,M,du){
+  const tb=document.getElementById('captTb');
+  if(!tb) return;
+  tb.innerHTML='';
+  let tB=0,tS=0,tM=0;
+  FONTES.forEach(f=>{
+    const b=Math.round(B.f*f.pct),s=Math.round(S.f*f.pct),m=Math.round(M.f*f.pct);
+    tB+=b;tS+=s;tM+=m;
+    tb.innerHTML+=`<tr><td><span class="fb fb-${f.key}">${f.nome}</span></td><td>${Math.round(f.pct*100)}%</td><td><strong>${b}</strong></td><td><strong>${s}</strong></td><td><strong>${m}</strong></td><td style="font-size:11px;color:var(--text2)">${f.resp}</td></tr>`;
+  });
+  tb.innerHTML+=`<tr class="tot"><td>TOTAL</td><td>100%</td><td>${tB}</td><td>${tS}</td><td>${tM}</td><td></td></tr>`;
+
+  const fc=document.getElementById('funisC');
+  if(!fc) return;
+  fc.innerHTML='';
+  FONTES.forEach(f=>{
+    const fech=Math.round(B.f*f.pct);
+    const comp=Math.round(fech/0.30),agend=Math.round(comp/0.40),leads=Math.round(agend/0.40);
+    const ritmo = (n) => { const pd=n/du; return pd>=1 ? Math.round(pd)+' por dia' : '1 a cada '+Math.round(du/n)+' dias'; };
+    fc.innerHTML+=`
+    <div class="scard" style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
+        <span style="font-size:14px;font-weight:700">${f.nome}</span>
+        <span class="badge ${f.badge}">${Math.round(f.pct*100)}% do total · Meta Base: ${fech} fech/mês</span>
+      </div>
+      <div class="rd-grid">
+        <div class="rd ld"><div class="rl">⚡ Leads</div><div class="rv" style="font-size:18px">${leads}</div><div class="rh">${ritmo(leads)}</div></div>
+        <div class="rd ag"><div class="rl">📅 Agendamentos</div><div class="rv" style="font-size:18px">${agend}</div><div class="rh">${ritmo(agend)}</div></div>
+        <div class="rd cp"><div class="rl">🤝 Comparec.</div><div class="rv" style="font-size:18px">${comp}</div><div class="rh">${ritmo(comp)}</div></div>
+        <div class="rd fc"><div class="rl">✅ Fechamentos</div><div class="rv" style="font-size:18px">${fech}</div><div class="rh">${ritmo(fech)}</div></div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--text3)">👥 <strong>Responsáveis:</strong> ${f.resp}</div>
+      <div class="funil" style="margin-top:10px">
+        <div class="fstep"><div class="fl">Leads</div><div class="fv">${leads}</div></div>
+        <div class="fstep"><div class="fl">Agend.</div><div class="fv">${agend}</div></div>
+        <div class="fstep"><div class="fl">Comp.</div><div class="fv">${comp}</div></div>
+        <div class="fstep"><div class="fl">Fech.</div><div class="fv">${fech}</div></div>
+      </div>
+    </div>`;
+  });
+}
+
+function renderRitmo(B,du){
+  const el=document.getElementById('ritmoD');
+  if(!el) return;
+  el.innerHTML='';
+  FONTES.forEach(f=>{
+    const fech=Math.round(B.f*f.pct);
+    const comp=Math.round(fech/0.30),agend=Math.round(comp/0.40),leads=Math.round(agend/0.40);
+    const ritmo = (n) => { const pd=n/du; return pd>=1 ? Math.round(pd)+' por dia' : '1 a cada '+Math.round(du/n)+' dias'; };
+    el.innerHTML+=`
+    <div class="scard" style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
+        <span style="font-size:14px;font-weight:700"><span class="fdot" style="background:${f.cor}"></span>${f.nome}</span>
+        <span class="badge ${f.badge}">${Math.round(f.pct*100)}% do total · ${fech} fechamentos/mês</span>
+      </div>
+      <div class="rd-grid">
+        <div class="rd ld"><div class="rl">⚡ Leads</div><div class="rv" style="font-size:18px">${leads}</div><div class="rh">${ritmo(leads)}</div></div>
+        <div class="rd ag"><div class="rl">📅 Agendamentos</div><div class="rv" style="font-size:18px">${agend}</div><div class="rh">${ritmo(agend)}</div></div>
+        <div class="rd cp"><div class="rl">🤝 Comparecimentos</div><div class="rv" style="font-size:18px">${comp}</div><div class="rh">${ritmo(comp)}</div></div>
+        <div class="rd fc"><div class="rl">✅ Fechamentos</div><div class="rv" style="font-size:18px">${fech}</div><div class="rh">${ritmo(fech)}</div></div>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:var(--text3)">👥 <strong>Quem executa:</strong> ${f.resp}</div>
+    </div>`;
+  });
+}
+
+function renderEq(){
+  const g=document.getElementById('teamG');
+  g.innerHTML='';
+  eqData.forEach((m,i)=>{
+    g.innerHTML+=`
+    <div class="tc">
+      <div class="tc-top">
+        <div class="tc-av">${m.ini}</div>
+        <div><div class="tc-nm">${m.nome}</div><div class="tc-fn">${m.func}</div></div>
+      </div>
+      <div class="tc-rs">${m.resp}</div>
+      <div class="tc-mt">🎯 ${m.meta}</div>
+      ${m.fonte?`<div class="tc-fo">Fonte: ${m.fonte}</div>`:''}
+    </div>`;
+  });
+}
+
+
+
+function renderCM(){
+  const ctx=document.getElementById('chartM');
+  if(!ctx) return;
+  if(cM) cM.destroy();
+  cM=new Chart(ctx,{type:'bar',data:{
+    labels:['ME – Mkt Externo','PV – Pós-venda','CI – Camp. Interna','IN – Indicações','OT – Outros'],
+    datasets:[
+      {label:'Fechamentos',data:[1,6,1,3,8],backgroundColor:['#EF9F2788','#5DCAA588','#85B7EB88','#AFA9EC88','#E2606088'],borderColor:['#EF9F27','#5DCAA5','#85B7EB','#AFA9EC','#E26060'],borderWidth:2,borderRadius:6,yAxisID:'y'},
+      {label:'Receita (R$)',data:[7568,27874,930,17100,19929],backgroundColor:'transparent',borderColor:'#0F2A42',borderWidth:2,type:'line',yAxisID:'y1',tension:.3,pointRadius:5,fill:false},
+    ]
+  },options:{responsive:true,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true,title:{display:true,text:'Fechamentos'}},y1:{beginAtZero:true,position:'right',title:{display:true,text:'Receita (R$)'},grid:{drawOnChartArea:false}}}}});
+}
+
+function renderCC(){
+  const ctx=document.getElementById('chartC');
+  if(!ctx) return;
+  if(cC) cC.destroy();
+  const tm=parseInt(document.getElementById('ticketMedio').value)||7000;
+  const du=parseFloat(document.getElementById("diasUteis").value)||22.5;
+  const B=calcC(300000,tm,du),S=calcC(345000,tm,du),M=calcC(390000,tm,du);
+  cC=new Chart(ctx,{type:'bar',data:{
+    labels:['ME – Mkt Externo','PV – Pós-venda','CI – Camp. Interna','IN – Indicações','OT – Outros'],
+    datasets:[
+      {label:'🎯 Meta Base (43 fech)',data:FONTES.map(f=>Math.round(B.f*f.pct)),backgroundColor:'#1A5E8C88',borderColor:'#1A5E8C',borderWidth:2,borderRadius:4},
+      {label:'🚀 Super Meta (49 fech)',data:FONTES.map(f=>Math.round(S.f*f.pct)),backgroundColor:'#3C348988',borderColor:'#3C3489',borderWidth:2,borderRadius:4},
+      {label:'🔥 Mega Meta (56 fech)',data:FONTES.map(f=>Math.round(M.f*f.pct)),backgroundColor:'#0F6E5688',borderColor:'#0F6E56',borderWidth:2,borderRadius:4},
+    ]
+  },options:{responsive:true,plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}}});
+}
+
+function toggleTheme(){
+  const h=document.documentElement,dark=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',dark?'light':'dark');
+  document.getElementById('btnTheme').textContent=dark?'🌙':'☀️';
+  saveL();
+}
+
+function saveL(){
+  try{localStorage.setItem('araruna_abr26',JSON.stringify({ticket:document.getElementById('ticketMedio').value,dias:document.getElementById('diasUteis').value,theme:document.documentElement.getAttribute('data-theme'),equipe:eqData}));}catch(e){}
+}
+
+function showSaved(){const e=document.getElementById('savedMsg');e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2200);}
+
+function exportJ(){
+  const d={campanha:'Abrindo Sorrisos',mes:'Abril/2026',ticket:document.getElementById('ticketMedio').value,diasUteis:document.getElementById('diasUteis').value,theme:document.documentElement.getAttribute('data-theme'),equipe:eqData,exportadoEm:new Date().toISOString()};
+  const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='araruna_abrindo_sorrisos_abril26.json';a.click();showSaved();
+}
+
+function importJ(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.ticket)document.getElementById('ticketMedio').value=d.ticket;if(d.diasUteis)document.getElementById('diasUteis').value=d.diasUteis;if(d.theme)document.documentElement.setAttribute('data-theme',d.theme);if(d.equipe)eqData=d.equipe;recalc();renderEq();showSaved();}catch(err){alert('Arquivo inválido.');}};
+  r.readAsText(f);
+}
+
+function resetD(){
+  if(!confirm('Resetar para os valores padrão?'))return;
+  document.getElementById('ticketMedio').value=7000;document.getElementById('diasUteis').value=22.5;
+  eqData=JSON.parse(JSON.stringify(EQ_DEF));recalc();renderEq();
+}
+
+(function init(){
+  try{
+    const s=JSON.parse(localStorage.getItem('araruna_abr26')||'{}');
+    if(s.ticket)document.getElementById('ticketMedio').value=s.ticket;
+    if(s.dias)document.getElementById('diasUteis').value=s.dias;
+    if(s.theme){document.documentElement.setAttribute('data-theme',s.theme);document.getElementById('btnTheme').textContent=s.theme==='dark'?'☀️':'🌙';}
+    if(s.equipe)eqData=s.equipe;
+  }catch(e){}
+  renderEq();recalc();renderCM();
+})();
+</script>
+</body>
+</html>
